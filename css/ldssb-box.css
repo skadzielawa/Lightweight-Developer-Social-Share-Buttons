@@ -1,0 +1,10 @@
+.ldssb-box {
+    border: 1px solid red;
+    background: rgba( 200, 0, 0, .1);
+    padding: 20px;
+    font-size: 14px;
+}
+
+.ldssb-box__title {
+    font-size: 22px;
+}

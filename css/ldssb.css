@@ -1,0 +1,21 @@
+.ldssb {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.ldssb__item {
+    display: inline-block;
+}
+
+.ldssb__link {
+    min-width: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ldssb__icon {
+    fill: currentColor;
+}
