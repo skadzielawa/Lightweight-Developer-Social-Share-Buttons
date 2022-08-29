@@ -62,7 +62,7 @@ function ldssb_shortcode( $atts ) {
 		$output .= wpautop(
 			sprintf(
 				/* translators: %s: Shortcode structure sample */
-				__( 'No sharing services added to the shortcode. Use %s. to add buttons.', 'ldssb' ),
+				__( 'No sharing services added to the shortcode. Use %s to add buttons.', 'ldssb' ),
 				'<strong>[[ldssb facebook="true" twitter="true" linkedin="true"]]</strong>'
 			)
 		);
