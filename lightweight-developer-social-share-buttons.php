@@ -34,11 +34,23 @@ function ldssb_shortcode( $atts = array() ) {
 	// normalize attribute keys, lowercase.
 	$atts = array_change_key_case( (array) $atts, CASE_LOWER );
 
+	// Set shortcode defaults.
+	$a = shortcode_atts(
+		array(
+			'facebook'    => 'true',
+			'twitter'     => 'true',
+			'linkedin'    => 'true',
+			'icons-style' => 'default',
+			'disable-css' => 'false',
+		),
+		$atts
+	);
+
 	$icon_facebook = '';
 	$icon_twitter  = '';
 	$icon_linkedin = '';
 
-	switch ( esc_attr( $atts['icons-style'] ) ) {
+	switch ( esc_attr( $a['icons-style'] ) ) {
 		case 'round':
 			$icon_facebook = '<svg class="ldssb__icon" enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m16 0c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16zm4.2 10.7h-1.5c-1.2 0-1.4.6-1.4 1.4v1.8h2.8l-.4 2.8h-2.4v7.3h-2.9v-7.3h-2.5v-2.8h2.5v-2.1c-.1-2.5 1.4-3.8 3.6-3.8 1 0 1.9.1 2.2.1z"/></svg>';
 			$icon_twitter  = '<svg class="ldssb__icon" enable-background="new 0 0 32 32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m16 0c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16zm6.4 12.7v.4c0 4.3-3.3 9.3-9.3 9.3-1.9 0-3.6-.5-5-1.5h.8c1.5 0 3-.5 4.1-1.4-1.4 0-2.6-1-3.1-2.3.2 0 .4.1.6.1.3 0 .6 0 .9-.1-1.5-.3-2.6-1.6-2.6-3.2.4.2.9.4 1.5.4-.9-.6-1.5-1.6-1.5-2.7 0-.6.2-1.2.4-1.7 1.6 2 4 3.3 6.8 3.4-.1-.2-.1-.5-.1-.7 0-1.8 1.5-3.3 3.3-3.3.9 0 1.8.4 2.4 1 .7-.1 1.5-.4 2.1-.8-.2.8-.8 1.4-1.4 1.8.7-.1 1.3-.3 1.9-.5-.6.8-1.2 1.4-1.8 1.8z"/></svg>';
@@ -60,11 +72,22 @@ function ldssb_shortcode( $atts = array() ) {
 
 	$output = '';
 
-	if ( ! empty( $atts ) ) {
+	if ( 'false' === $a['facebook'] &&
+		'false' === $a['twitter'] &&
+		'false' === $a['linkedin']
+		) {
+
+		// No services added to the shortcode - inform the user about it.
+		$output .= ldssb_print_info_box();
+
+		// Enqueue Error CSS.
+		wp_enqueue_style( 'ldssb-box', plugins_url( 'assets/css/ldssb-box.css', __FILE__ ), array(), LDSSB_VERSION, 'all' );
+
+	} else {
 		// Starting to build the <ul> list with share buttons.
 		$output .= '<ul class="ldssb">';
 
-		foreach ( $atts as $key => $value ) {
+		foreach ( $a as $key => $value ) {
 
 			switch ( esc_attr( $key ) ) {
 				case 'facebook':
@@ -94,15 +117,9 @@ function ldssb_shortcode( $atts = array() ) {
 		$output .= '</ul>';
 
 		// Enqueue Share Buttons CSS unless there is a parameter disable-css="true" within the shortcode.
-		if ( 'true' !== $atts['disable-css'] ) {
-			wp_enqueue_style( 'ldssb', plugins_url( 'css/ldssb.css', __FILE__ ), array(), LDSSB_VERSION, 'all' );
+		if ( 'true' !== $a['disable-css'] ) {
+			wp_enqueue_style( 'ldssb', plugins_url( 'assets/css/ldssb.css', __FILE__ ), array(), LDSSB_VERSION, 'all' );
 		}
-	} else {
-		// No services added to the shortcode - inform the user about it.
-		$output .= ldssb_print_info_box();
-
-		// Enqueue Error CSS.
-		wp_enqueue_style( 'ldssb-box', plugins_url( 'css/ldssb-box.css', __FILE__ ), array(), LDSSB_VERSION, 'all' );
 	}
 
 	return $output;
@@ -123,7 +140,7 @@ function ldssb_print_info_box() {
 			sprintf(
 				/* translators: %s: Shortcode structure sample */
 				__( 'No sharing services added to the shortcode. Use %s to add buttons.', 'ldssb' ),
-				'<strong>[ldssb facebook="true" twitter="true" linkedin="true" disable-css="false"]</strong>'
+				'<strong>[[ldssb facebook="true" twitter="true" linkedin="true" disable-css="false" icons-style=""]]</strong>'
 			)
 		);
 		$info_box .= wpautop( __( 'Tip: You can configure the buttons order by changing the shortcode parameters order.', 'ldssb' ) );
@@ -137,7 +154,7 @@ function ldssb_print_info_box() {
  *
  * @param string $sharer_url URL for the sharing service.
  * @param string $icon_url Share icon URL.
- * @param string $service_name Name of the sharing service for screen readers
+ * @param string $service_name Name of the sharing service for screen readers.
  * @return string
  */
 function ldssb_item_generator( $sharer_url, $icon_url, $service_name ) {
