@@ -144,7 +144,13 @@ function ldssb_item_generator( $sharer_url, $icon_url, $service_name ) {
 	return '<li class="ldssb__item">
 				<a target="_blank" rel="noopener noreferrer" href="' . $sharer_url . '" class="ldssb__link">' .
 					$icon_url .
-					'<span class="ldssb__screen-reader-text">Share on ' . $service_name . '</span>' .
+					'<span class="ldssb__screen-reader-text">' .
+						sprintf(
+							/* translators: %s: Sharing service name */
+							__( 'Share on %s', 'ldssb' ),
+							$service_name
+						) .
+					'</span>' .
 				'</a>
 			</li>';
 }
