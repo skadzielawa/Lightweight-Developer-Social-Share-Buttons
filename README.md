@@ -1,5 +1,5 @@
 # Lightweight Developer Social Share Buttons
-Social sharing buttons WordPress plugin built with performance and privacy in mind. 
+Social sharing buttons WordPress plugin built with performance, accessibility & privacy in mind. 
 
 Use it to share current post/page on:
 * Twitter
@@ -20,25 +20,25 @@ To use the shortcode within the template, i.e. in the `sidebar.php` or `single.p
 ### Custom buttons order
 You can configure the order of the buttons by changing the shortcode parameters order.
 
-### Icons style
-There are three icons style added to the plugin:
-* default
-* square
-* rounded
-
 You can change the default icons set to other using `icons-style="square"` or `icons-style="rouded"` attribute.
 
 ### Disable plugin CSS
 You can write your styling for the social icons. To disable plugin's CSS use `disable-css="true"` as the shortcode parameter.
 
-## Icons attribution
+### Icons
 The plugin uses the free SVG social icons from [Nucleo Icons](https://nucleoapp.com/). They are royalty free for use in both personal and commercial projects.
 
-### How to change Icons:
+### Icons style
+There are three included icons style added to the plugin:
+* default
+* square
+* rounded
+
+#### How to change icons completely:
 There are filters added for the icons. You can grab any SVG icon code and optimize it, i.e. using [SVGOMG](https://jakearchibald.github.io/svgomg/), then in the functions.php of your theme, you can add:
 
 
-#### Facebook
+##### Facebook
 ```
 function ldssb_custom_icon_facebook() {
     return '<svg class="ldssb__icon" (...) /></svg>'; // Place your SVG code here
@@ -47,7 +47,7 @@ add_filter( 'ldssb_icon_facebook', 'ldssb_custom_icon_facebook' );
 ```
 
 
-#### Twitter
+##### Twitter
 ```
 function ldssb_custom_icon_twitter() {
     return '<svg class="ldssb__icon" (...) /></svg>'; // Place your SVG code here
@@ -55,7 +55,7 @@ function ldssb_custom_icon_twitter() {
 add_filter( 'ldssb_icon_twitter', 'ldssb_custom_icon_twitter' );
 ```
 
-#### Linkedin
+##### Linkedin
 ```
 function ldssb_custom_icon_linkedin() {
     return '<svg class="ldssb__icon" (...) /></svg>'; // Place your SVG code here
