@@ -9,21 +9,29 @@ Use it to share current post/page on:
 ## Usage
 The plugin adds a shortcode:
 ```
-[ldssb facebook="true" twitter="true" linkedin="true" disable-css="false"]
+[ldssb facebook="true" twitter="true" linkedin="true" disable-css="false" icons-style=""]
 ```
 
 To use the shortcode within the template, i.e. in the `sidebar.php` or `single.php`, you can use the following code:
 ```
-<?php echo do_shortcode( '[ldssb facebook="true" twitter="true" linkedin="true" disable-css="false"]' ); ?>
+<?php echo do_shortcode( '[ldssb facebook="true" twitter="true" linkedin="true" disable-css="false" icons-style=""]' ); ?>
 ```
 
 ### Custom buttons order
 You can configure the order of the buttons by changing the shortcode parameters order.
 
+### Icons style
+There are three icons style added to the plugin:
+* default
+* square
+* rounded
+
+You can change the default icons set to other using `icons-style="square"` or `icons-style="rouded"` attribute.
+
 ### Disable plugin CSS
 You can write your styling for the social icons. To disable plugin's CSS use `disable-css="true"` as the shortcode parameter.
 
-## Icons
+## Icons attribution
 The plugin uses the free SVG social icons from [Nucleo Icons](https://nucleoapp.com/). They are royalty free for use in both personal and commercial projects.
 
 ### How to change Icons:
