@@ -1,5 +1,10 @@
 # Lightweight Developer Social Share Buttons
-Social sharing buttons WordPress plugin built with performance and privacy in mind.
+Social sharing buttons WordPress plugin built with performance and privacy in mind. 
+
+Use it to share current post/page on:
+* Twitter
+* Facebook
+* LinkedIn
 
 ## Usage
 The plugin adds a shortcode:
