@@ -72,4 +72,5 @@ function ldssb_custom_icon_facebook() {
 add_filter( 'ldssb_icon_facebook', 'ldssb_custom_icon_facebook' );
 ```
 
-
+#### How to change the icon size, or layout of the icons to vertical?
+Use CSS ;)
