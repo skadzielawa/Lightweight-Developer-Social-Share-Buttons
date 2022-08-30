@@ -126,14 +126,14 @@ function ldssb_shortcode( $atts = array() ) {
 }
 
 /**
- * Helper function to print info box, when there are no shortcode parameters with services added.
- * Shown for logged in users only.
+ * Helper function to print info box, when there are all sharing services disabled.
  *
  * @return string
  */
 function ldssb_print_info_box() {
 	$info_box = '';
 	if ( current_user_can( 'manage_options' ) ) {
+		// Show the info box for user with proper privileges.
 		$info_box .= '<div class="ldssb-box">';
 		$info_box .= '<h2 class="ldssb-box__title">' . __( 'Lightweight Developer Social Share Buttons info', 'ldssb' ) . '</h2>';
 		$info_box .= wpautop(
