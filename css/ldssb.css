@@ -1,11 +1,12 @@
 .ldssb {
     padding: 0;
-    margin: 0;
+    margin: 0 -4px;
     list-style-type: none;
 }
 
 .ldssb__item {
     display: inline-block;
+    margin: 0 4px 16px;
 }
 
 .ldssb__link {
