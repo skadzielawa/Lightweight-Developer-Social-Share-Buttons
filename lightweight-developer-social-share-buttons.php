@@ -71,21 +71,21 @@ function ldssb_shortcode( $atts = array() ) {
 					if ( 'true' === $value ) {
 						$sharer  = 'http://www.facebook.com/sharer.php?u=' . esc_url( rawurlencode( get_the_permalink() ) );
 						$icon    = apply_filters( 'ldssb_icon_facebook', $icon_facebook );
-						$output .= ldssb_item_generator( $sharer, $icon );
+						$output .= ldssb_item_generator( $sharer, $icon, __( 'Facebook', 'ldssb' ) );
 					}
 					break;
 				case 'twitter':
 					if ( 'true' === $value ) {
 						$sharer  = 'https://twitter.com/intent/tweet?url=' . esc_url( rawurlencode( get_the_permalink() ) ) . '&text=' . get_the_title();
 						$icon    = apply_filters( 'ldssb_icon_twitter', $icon_twitter );
-						$output .= ldssb_item_generator( $sharer, $icon );
+						$output .= ldssb_item_generator( $sharer, $icon, __( 'Twitter', 'ldssb' ) );
 					}
 					break;
 				case 'linkedin':
 					if ( 'true' === $value ) {
 						$sharer  = 'https://www.linkedin.com/sharing/share-offsite/?url=' . esc_url( rawurlencode( get_the_permalink() ) );
 						$icon    = apply_filters( 'ldssb_icon_linkedin', $icon_linkedin );
-						$output .= ldssb_item_generator( $sharer, $icon );
+						$output .= ldssb_item_generator( $sharer, $icon, __( 'LinkedIn', 'ldssb' ) );
 					}
 					break;
 			}
@@ -137,12 +137,14 @@ function ldssb_print_info_box() {
  *
  * @param string $sharer_url URL for the sharing service.
  * @param string $icon_url Share icon URL.
+ * @param string $service_name Name of the sharing service for screen readers
  * @return string
  */
-function ldssb_item_generator( $sharer_url, $icon_url ) {
+function ldssb_item_generator( $sharer_url, $icon_url, $service_name ) {
 	return '<li class="ldssb__item">
 				<a target="_blank" rel="noopener noreferrer" href="' . $sharer_url . '" class="ldssb__link">' .
 					$icon_url .
+					'<span class="ldssb__screen-reader-text">Share on ' . $service_name . '</span>' .
 				'</a>
 			</li>';
 }
