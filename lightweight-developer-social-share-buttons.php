@@ -1,7 +1,8 @@
 <?php
 /**
  * Plugin Name:       Lightweight Developer Social Share Buttons
- * Description:       Social sharing buttons plugin built with performance and privacy in mind (no tracking code added by the plugin). Default plugin icons are coming from the free sample of the Nucleo Icons. They are royalty free for use in both personal and commercial projects.
+ * Description:       Social sharing buttons WordPress plugin built with performance, accessibility & privacy in mind. Use it to share current post/page on Twitter, Facebook & LinkedIn.
+
  * Version:           1.0
  * Author:            Szymon Kądzielawa
  * License:           GPL v2 or later
@@ -81,7 +82,7 @@ function ldssb_shortcode( $atts = array() ) {
 		$output .= ldssb_print_info_box();
 
 		// Enqueue Error CSS.
-		wp_enqueue_style( 'ldssb-box', plugins_url( 'assets/css/ldssb-box.css', __FILE__ ), array(), LDSSB_VERSION, 'all' );
+		wp_enqueue_style( 'ldssb-box', plugins_url( 'css/ldssb-box.css', __FILE__ ), array(), LDSSB_VERSION, 'all' );
 
 	} else {
 		// Starting to build the <ul> list with share buttons.
@@ -118,7 +119,7 @@ function ldssb_shortcode( $atts = array() ) {
 
 		// Enqueue Share Buttons CSS unless there is a parameter disable-css="true" within the shortcode.
 		if ( 'true' !== $a['disable-css'] ) {
-			wp_enqueue_style( 'ldssb', plugins_url( 'assets/css/ldssb.css', __FILE__ ), array(), LDSSB_VERSION, 'all' );
+			wp_enqueue_style( 'ldssb', plugins_url( 'css/ldssb.css', __FILE__ ), array(), LDSSB_VERSION, 'all' );
 		}
 	}
 
