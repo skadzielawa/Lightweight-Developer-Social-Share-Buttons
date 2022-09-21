@@ -3,7 +3,7 @@ Contributors: szymonkadzielawa
 Tags: social, share, facebook, twitter, linkedin, sharing, developer, buttons, lightweight, light, privacy, ldssb, dev
 Requires at least: 4.7
 Tested up to: 6.0.2
-Stable tag: trunk
+Stable tag: 1.1.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
