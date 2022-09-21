@@ -271,12 +271,13 @@ function ldssb_sanitize_checkbox( $value ) {
 }
 
 /**
- * Custom callback function to print upload Facebook icon image field
+ * Helper function to build media uploader field in settings
  *
+ * @param string $option_key get_option() key name.
  * @return void
  */
-function ldssb_facebook_icon_id_callback() {
-	$image_id = get_option( 'ldssb_facebook_icon_id' );
+function ldssb_build_media_uploader_field( $option_key ) {
+	$image_id = get_option( esc_attr( $option_key ) );
 	$image    = wp_get_attachment_image_url( $image_id, 'medium' );
 
 	if ( $image ) :
@@ -285,13 +286,22 @@ function ldssb_facebook_icon_id_callback() {
 			<img src="<?php echo esc_url( $image ); ?>" />
 		</a>
 		<a href="#" class="ldssb-remove">Remove image</a>
-		<input type="hidden" name="ldssb_facebook_icon_id" value="<?php echo absint( $image_id ); ?>">
+		<input type="hidden" name=<?php echo esc_attr( $option_key ); ?> value="<?php echo absint( $image_id ); ?>">
 	<?php else : ?>
 		<a href="#" class="button ldssb-upload">Upload image</a>
 		<a href="#" class="ldssb-remove" style="display:none">Remove image</a>
-		<input type="hidden" name="ldssb_facebook_icon_id" value="">
+		<input type="hidden" name=<?php echo esc_attr( $option_key ); ?> value="">
 		<?php
 	endif;
+}
+
+/**
+ * Custom callback function to print upload Facebook icon image field
+ *
+ * @return void
+ */
+function ldssb_facebook_icon_id_callback() {
+	ldssb_build_media_uploader_field( 'ldssb_facebook_icon_id' );
 }
 
 /**
@@ -300,22 +310,7 @@ function ldssb_facebook_icon_id_callback() {
  * @return void
  */
 function ldssb_twitter_icon_id_callback() {
-	$image_id = get_option( 'ldssb_twitter_icon_id' );
-	$image    = wp_get_attachment_image_url( $image_id, 'medium' );
-
-	if ( $image ) :
-		?>
-		<a href="#" class="ldssb-upload">
-			<img src="<?php echo esc_url( $image ); ?>" />
-		</a>
-		<a href="#" class="ldssb-remove">Remove image</a>
-		<input type="hidden" name="ldssb_twitter_icon_id" value="<?php echo absint( $image_id ); ?>">
-	<?php else : ?>
-		<a href="#" class="button ldssb-upload">Upload image</a>
-		<a href="#" class="ldssb-remove" style="display:none">Remove image</a>
-		<input type="hidden" name="ldssb_twitter_icon_id" value="">
-		<?php
-	endif;
+	ldssb_build_media_uploader_field( 'ldssb_twitter_icon_id' );
 }
 
 /**
@@ -324,22 +319,7 @@ function ldssb_twitter_icon_id_callback() {
  * @return void
  */
 function ldssb_linkedin_icon_id_callback() {
-	$image_id = get_option( 'ldssb_linkedin_icon_id' );
-	$image    = wp_get_attachment_image_url( $image_id, 'medium' );
-
-	if ( $image ) :
-		?>
-		<a href="#" class="ldssb-upload">
-			<img src="<?php echo esc_url( $image ); ?>" />
-		</a>
-		<a href="#" class="ldssb-remove">Remove image</a>
-		<input type="hidden" name="ldssb_linkedin_icon_id" value="<?php echo absint( $image_id ); ?>">
-	<?php else : ?>
-		<a href="#" class="button ldssb-upload">Upload image</a>
-		<a href="#" class="ldssb-remove" style="display:none">Remove image</a>
-		<input type="hidden" name="ldssb_linkedin_icon_id" value="">
-		<?php
-	endif;
+	ldssb_build_media_uploader_field( 'ldssb_linkedin_icon_id' );
 }
 
 
@@ -350,15 +330,15 @@ add_action( 'admin_enqueue_scripts', 'ldssb_enqueue_media_uplaoder_js' );
  * @return void
  */
 function ldssb_enqueue_media_uplaoder_js() {
-	// I recommend to add additional conditions here
-	// because we probably do not need the scripts on every admin page, right?
+	if ( isset( $_GET['page'] ) && 'options-ldssb' === $_GET['page'] ) {
+		// WordPress media uploader scripts.
+		if ( ! did_action( 'wp_enqueue_media' ) ) {
+			wp_enqueue_media();
+		}
 
-	// WordPress media uploader scripts.
-	if ( ! did_action( 'wp_enqueue_media' ) ) {
-		wp_enqueue_media();
+		// Custom JS for media upload.
+		wp_enqueue_script( 'ldssb-media-uploader', plugins_url( 'js/ldssb-media-uploader.js', __FILE__ ), array( 'jquery' ), LDSSB_VERSION, false );
 	}
-	// our custom JS.
-	wp_enqueue_script( 'ldssb-media-uploader', plugins_url( 'js/ldssb-media-uploader.js', __FILE__ ), array( 'jquery' ), LDSSB_VERSION, false );
 }
 
 
