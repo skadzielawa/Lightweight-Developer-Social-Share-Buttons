@@ -47,10 +47,6 @@ function ldssb_shortcode( $atts = array() ) {
 		$atts
 	);
 
-	$icon_facebook = 'fb';
-	$icon_twitter  = 'tw';
-	$icon_linkedin = 'li';
-
 	$output = '';
 
 	if ( 'false' === $a['facebook'] &&
@@ -74,23 +70,23 @@ function ldssb_shortcode( $atts = array() ) {
 			switch ( esc_attr( $key ) ) {
 				case 'facebook':
 					if ( 'true' === $value ) {
-						$sharer  = 'http://www.facebook.com/sharer.php?u=' . esc_url( rawurlencode( get_the_permalink() ) );
-						$icon    = apply_filters( 'ldssb_icon_facebook', $icon_facebook );
-						$output .= ldssb_item_generator( $sharer, $icon, __( 'Facebook', 'ldssb' ) );
+						$sharer        = 'http://www.facebook.com/sharer.php?u=' . esc_url( rawurlencode( get_the_permalink() ) );
+						$icon_facebook = get_option( 'ldssb_facebook_icon_id' );
+						$output       .= ldssb_item_generator( $sharer, $icon_facebook, __( 'Facebook', 'ldssb' ) );
 					}
 					break;
 				case 'twitter':
 					if ( 'true' === $value ) {
-						$sharer  = 'https://twitter.com/intent/tweet?url=' . esc_url( rawurlencode( get_the_permalink() ) ) . '&text=' . get_the_title();
-						$icon    = apply_filters( 'ldssb_icon_twitter', $icon_twitter );
-						$output .= ldssb_item_generator( $sharer, $icon, __( 'Twitter', 'ldssb' ) );
+						$sharer       = 'https://twitter.com/intent/tweet?url=' . esc_url( rawurlencode( get_the_permalink() ) ) . '&text=' . get_the_title();
+						$icon_twitter = get_option( 'ldssb_twitter_icon_id' );
+						$output      .= ldssb_item_generator( $sharer, $icon_twitter, __( 'Twitter', 'ldssb' ) );
 					}
 					break;
 				case 'linkedin':
 					if ( 'true' === $value ) {
-						$sharer  = 'https://www.linkedin.com/sharing/share-offsite/?url=' . esc_url( rawurlencode( get_the_permalink() ) );
-						$icon    = apply_filters( 'ldssb_icon_linkedin', $icon_linkedin );
-						$output .= ldssb_item_generator( $sharer, $icon, __( 'LinkedIn', 'ldssb' ) );
+						$sharer        = 'https://www.linkedin.com/sharing/share-offsite/?url=' . esc_url( rawurlencode( get_the_permalink() ) );
+						$icon_linkedin = get_option( 'ldssb_linkedin_icon_id' );
+						$output       .= ldssb_item_generator( $sharer, $icon_linkedin, __( 'LinkedIn', 'ldssb' ) );
 					}
 					break;
 			}
@@ -135,14 +131,14 @@ function ldssb_print_info_box() {
  * Helper function to generate the share button code.
  *
  * @param string $sharer_url URL for the sharing service.
- * @param string $icon_url Share icon URL.
+ * @param string $icon_id Share icon attachment id.
  * @param string $service_name Name of the sharing service for screen readers.
  * @return string
  */
-function ldssb_item_generator( $sharer_url, $icon_url, $service_name ) {
+function ldssb_item_generator( $sharer_url, $icon_id, $service_name ) {
 	return '<li class="ldssb__item">
 				<a target="_blank" rel="noopener noreferrer" href="' . $sharer_url . '" class="ldssb__link">' .
-					$icon_url .
+				wp_get_attachment_image( $icon_id, 'full', true, array( 'class' => 'ldssb__icon' ) ) .
 					'<span class="ldssb__screen-reader-text">' .
 						sprintf(
 							/* translators: %s: Sharing service name */
@@ -211,12 +207,39 @@ function ldssb_settings_fields() {
 
 	// Register Fields.
 	register_setting( $option_group, 'disable_css', 'ldssb_sanitize_checkbox' );
+	register_setting( $option_group, 'ldssb_facebook_icon_id', 'absint' );
+	register_setting( $option_group, 'ldssb_twitter_icon_id', 'absint' );
+	register_setting( $option_group, 'ldssb_linkedin_icon_id', 'absint' );
 
 	// Add fields.
 	add_settings_field(
 		'disable_css',
 		esc_html__( "Don't enqueue plugin CSS", 'ldssb' ),
-		'ldssb_disable_css_html',
+		'ldssb_disable_css_callback',
+		$page_slug,
+		'ldssb_section_id'
+	);
+
+	add_settings_field(
+		'ldssb_facebook_icon_id',
+		esc_html__( 'Facebook icon', 'ldssb' ),
+		'ldssb_facebook_icon_id_callback',
+		$page_slug,
+		'ldssb_section_id'
+	);
+
+	add_settings_field(
+		'ldssb_twitter_icon_id',
+		esc_html__( 'Twitter icon', 'ldssb' ),
+		'ldssb_twitter_icon_id_callback',
+		$page_slug,
+		'ldssb_section_id'
+	);
+
+	add_settings_field(
+		'ldssb_linkedin_icon_id',
+		esc_html__( 'LinkedIn icon', 'ldssb' ),
+		'ldssb_linkedin_icon_id_callback',
 		$page_slug,
 		'ldssb_section_id'
 	);
@@ -227,7 +250,7 @@ function ldssb_settings_fields() {
  *
  * @return void
  */
-function ldssb_disable_css_html() {
+function ldssb_disable_css_callback() {
 	$value = get_option( 'disable_css' );
 	?>
 	<label>
@@ -247,5 +270,95 @@ function ldssb_sanitize_checkbox( $value ) {
 	return 'on' === $value ? 'yes' : 'no';
 }
 
+/**
+ * Custom callback function to print upload Facebook icon image field
+ *
+ * @return void
+ */
+function ldssb_facebook_icon_id_callback() {
+	$image_id = get_option( 'ldssb_facebook_icon_id' );
+	$image    = wp_get_attachment_image_url( $image_id, 'medium' );
+
+	if ( $image ) :
+		?>
+		<a href="#" class="ldssb-upload">
+			<img src="<?php echo esc_url( $image ); ?>" />
+		</a>
+		<a href="#" class="ldssb-remove">Remove image</a>
+		<input type="hidden" name="ldssb_facebook_icon_id" value="<?php echo absint( $image_id ); ?>">
+	<?php else : ?>
+		<a href="#" class="button ldssb-upload">Upload image</a>
+		<a href="#" class="ldssb-remove" style="display:none">Remove image</a>
+		<input type="hidden" name="ldssb_facebook_icon_id" value="">
+		<?php
+	endif;
+}
+
+/**
+ * Custom callback function to print upload Twitter icon image field
+ *
+ * @return void
+ */
+function ldssb_twitter_icon_id_callback() {
+	$image_id = get_option( 'ldssb_twitter_icon_id' );
+	$image    = wp_get_attachment_image_url( $image_id, 'medium' );
+
+	if ( $image ) :
+		?>
+		<a href="#" class="ldssb-upload">
+			<img src="<?php echo esc_url( $image ); ?>" />
+		</a>
+		<a href="#" class="ldssb-remove">Remove image</a>
+		<input type="hidden" name="ldssb_twitter_icon_id" value="<?php echo absint( $image_id ); ?>">
+	<?php else : ?>
+		<a href="#" class="button ldssb-upload">Upload image</a>
+		<a href="#" class="ldssb-remove" style="display:none">Remove image</a>
+		<input type="hidden" name="ldssb_twitter_icon_id" value="">
+		<?php
+	endif;
+}
+
+/**
+ * Custom callback function to print upload LinkedIn icon image field
+ *
+ * @return void
+ */
+function ldssb_linkedin_icon_id_callback() {
+	$image_id = get_option( 'ldssb_linkedin_icon_id' );
+	$image    = wp_get_attachment_image_url( $image_id, 'medium' );
+
+	if ( $image ) :
+		?>
+		<a href="#" class="ldssb-upload">
+			<img src="<?php echo esc_url( $image ); ?>" />
+		</a>
+		<a href="#" class="ldssb-remove">Remove image</a>
+		<input type="hidden" name="ldssb_linkedin_icon_id" value="<?php echo absint( $image_id ); ?>">
+	<?php else : ?>
+		<a href="#" class="button ldssb-upload">Upload image</a>
+		<a href="#" class="ldssb-remove" style="display:none">Remove image</a>
+		<input type="hidden" name="ldssb_linkedin_icon_id" value="">
+		<?php
+	endif;
+}
+
+
+add_action( 'admin_enqueue_scripts', 'ldssb_enqueue_media_uplaoder_js' );
+/**
+ * Enqueue JS file needed for media uploader in settings
+ *
+ * @return void
+ */
+function ldssb_enqueue_media_uplaoder_js() {
+	// I recommend to add additional conditions here
+	// because we probably do not need the scripts on every admin page, right?
+
+	// WordPress media uploader scripts.
+	if ( ! did_action( 'wp_enqueue_media' ) ) {
+		wp_enqueue_media();
+	}
+	// our custom JS.
+	wp_enqueue_script( 'ldssb-media-uploader', plugins_url( 'js/ldssb-media-uploader.js', __FILE__ ), array( 'jquery' ), LDSSB_VERSION, false );
+}
 
 

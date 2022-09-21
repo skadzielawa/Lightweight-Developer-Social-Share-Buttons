@@ -17,8 +17,13 @@
     justify-content: center;
 }
 
-svg {
-    fill: currentColor;
+.ldssb__icon {
+    transition: .2s opacity;
+}
+
+.ldssb__icon:hover,
+.ldssb__icon:focus {
+    opacity: .9;
 }
 
 .ldssb__screen-reader-text {
