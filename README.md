@@ -24,7 +24,7 @@ You can configure the order of the buttons by changing the shortcode parameters 
 You can upload the custom icons in the plugin settings.
 
 ### Can I use SVG icons?
-Yes, you can! By default WordPress has SVG support blocked for security reason. You can install a plugin to enable it (i.e. Safe SVG by 10up).
+Yes, you can! By default WordPress has SVG support blocked for security reasons. You can install a plugin to enable it (i.e. Safe SVG by 10up).
 
 #### How to change the icon size, or layout of the icons to vertical?
 Use CSS ;)
