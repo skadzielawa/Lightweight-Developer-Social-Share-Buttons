@@ -12,7 +12,7 @@ Social sharing buttons plugin built with performance, accessibility & privacy in
 
 == Description ==
 
-# DEV Share Buttons
+# Dev Share Buttons
 Lightweight Social sharing buttons WordPress plugin built with performance, accessibility & privacy in mind. 
 
 Use it to share current post/page on:
