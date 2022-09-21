@@ -1,22 +1,8 @@
 === Lightweight Developer Social Share Buttons ===
 Contributors: szymonkadzielawa
-Tags: social, share, facebook, twitter, linkedin, sharing, developer, buttons, lightweight, light, privacy
-Requires at least: 4.7
-Tested up to: 6.0.2
-Stable tag: 1.1.0
-Requires PHP: 7.0
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-
-Social sharing buttons plugin built with performance, accessibility & privacy in mind. Use it to share current post/page on Twitter, Facebook & LinkedIn.
-
-== Description ==
-
-=== Lightweight Developer Social Share Buttons ===
-Contributors: szymonkadzielawa
 Tags: social, share, facebook, twitter, linkedin, sharing, developer, buttons, lightweight, light, privacy, ldssb, dev
 Requires at least: 4.7
-Tested up to: 6.0.1
+Tested up to: 6.0.2
 Stable tag: trunk
 Requires PHP: 7.0
 License: GPLv2 or later
