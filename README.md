@@ -21,6 +21,9 @@ To use the shortcode within the template, i.e. in the `sidebar.php` or `single.p
 You can configure the order of the buttons by changing the shortcode parameters order.
 
 ### Disable plugin CSS
+There is a checkbox in the plugin settings.
+
+### Upload custom icons
 You can upload the custom icons in the plugin settings.
 
 ### Can I use SVG icons?
