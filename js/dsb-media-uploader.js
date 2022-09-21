@@ -1,6 +1,6 @@
 jQuery( function($){
 	// on upload button click
-	$( 'body' ).on( 'click', '.ldssb-upload', function( event ){
+	$( 'body' ).on( 'click', '.dsb-upload', function( event ){
 		event.preventDefault(); // prevent default link click and page refresh
 		
 		const button = $(this)
@@ -39,7 +39,7 @@ jQuery( function($){
 	
 	});
 	// on remove button click
-	$( 'body' ).on( 'click', '.ldssb-remove', function( event ){
+	$( 'body' ).on( 'click', '.dsb-remove', function( event ){
 		event.preventDefault();
 		const button = $(this);
 		button.next().val( '' ); // emptying the hidden field

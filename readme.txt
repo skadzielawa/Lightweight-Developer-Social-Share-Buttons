@@ -1,6 +1,6 @@
-=== Lightweight Developer Social Share Buttons ===
+=== Dev Share Buttons ===
 Contributors: szymonkadzielawa
-Tags: social, share, facebook, twitter, linkedin, sharing, developer, buttons, lightweight, light, privacy, ldssb, dev
+Tags: social, share, facebook, twitter, linkedin, sharing, developer, buttons, lightweight, light, privacy, dsb, dev
 Requires at least: 4.7
 Tested up to: 6.0.2
 Stable tag: 1.1.0
@@ -12,8 +12,8 @@ Social sharing buttons plugin built with performance, accessibility & privacy in
 
 == Description ==
 
-# Lightweight Developer Social Share Buttons
-Social sharing buttons WordPress plugin built with performance, accessibility & privacy in mind. 
+# DEV Share Buttons
+Lightweight Social sharing buttons WordPress plugin built with performance, accessibility & privacy in mind. 
 
 Use it to share current post/page on:
 * Twitter
@@ -23,12 +23,12 @@ Use it to share current post/page on:
 ## Usage
 The plugin adds a shortcode:
 ```
-[ldssb facebook="true" twitter="true" linkedin="true"]
+[dsb facebook="true" twitter="true" linkedin="true"]
 ```
 
 To use the shortcode within the template, i.e. in the `sidebar.php` or `single.php`, you can use the following code:
 ```
-<?php echo do_shortcode( '[ldssb facebook="true" twitter="true" linkedin="true"]' ); ?>
+<?php echo do_shortcode( '[dsb facebook="true" twitter="true" linkedin="true"]' ); ?>
 ```
 
 ### Custom buttons order

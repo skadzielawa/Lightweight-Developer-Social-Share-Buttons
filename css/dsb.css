@@ -1,15 +1,15 @@
-.ldssb {
+.dsb {
     padding: 0;
     margin: 0 -4px;
     list-style-type: none;
 }
 
-.ldssb__item {
+.dsb__item {
     display: inline-block;
     margin: 0 4px 16px;
 }
 
-.ldssb__link {
+.dsb__link {
     min-width: 40px;
     min-height: 40px;
     display: flex;
@@ -17,16 +17,16 @@
     justify-content: center;
 }
 
-.ldssb__icon {
+.dsb__icon {
     transition: .2s opacity;
 }
 
-.ldssb__icon:hover,
-.ldssb__icon:focus {
+.dsb__icon:hover,
+.dsb__icon:focus {
     opacity: .9;
 }
 
-.ldssb__screen-reader-text {
+.dsb__screen-reader-text {
   border: 0;
   clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);

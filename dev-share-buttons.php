@@ -1,17 +1,16 @@
 <?php
 /**
- * Plugin Name:       Lightweight Developer Social Share Buttons
- * Description:       Social sharing buttons WordPress plugin built with performance, accessibility & privacy in mind. Use it to share current post/page on Twitter, Facebook & LinkedIn.
-
+ * Plugin Name:       Dev Share Buttons
+ * Description:       Lightweight Social sharing buttons WordPress plugin built with performance, accessibility & privacy in mind. Use it to share current post/page on Twitter, Facebook & LinkedIn.
  * Version:           1.1.0
  * Author:            Szymon Kądzielawa
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       ldssb
+ * Text Domain:       dsb
  * GitHub Plugin URI: https://github.com/skadzielawa/lightweight-developer-social-share-buttons
  * GitHub Branch:     master
  *
- *  @package ldssb
+ *  @package dsb
  */
 
 // If this file is called directly, abort.
@@ -22,18 +21,18 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Define the plugin version.
  */
-if ( ! defined( 'LDSSB_VERSION' ) ) {
-	define( 'LDSSB_VERSION', '1.1.0' );
+if ( ! defined( 'DSB_VERSION' ) ) {
+	define( 'DSB_VERSION', '1.1.0' );
 }
 
-add_shortcode( 'ldssb', 'ldssb_shortcode' );
+add_shortcode( 'dsb', 'dsb_shortcode' );
 /**
  * The social buttons shortcode.
  *
  * @param array $atts User defined attributes in shortcode tag.
  * @return string
  */
-function ldssb_shortcode( $atts = array() ) {
+function dsb_shortcode( $atts = array() ) {
 	// normalize attribute keys, lowercase.
 	$atts = array_change_key_case( (array) $atts, CASE_LOWER );
 
@@ -55,15 +54,15 @@ function ldssb_shortcode( $atts = array() ) {
 		) {
 
 		// No services added to the shortcode - inform the user about it.
-		$output .= ldssb_print_info_box();
+		$output .= dsb_print_info_box();
 
 		// Enqueue Error CSS.
 		if ( 'yes' !== get_option( 'disable_css' ) ) {
-			wp_enqueue_style( 'ldssb-box', plugins_url( 'css/ldssb-box.css', __FILE__ ), array(), LDSSB_VERSION, 'all' );
+			wp_enqueue_style( 'dsb-box', plugins_url( 'css/dsb-box.css', __FILE__ ), array(), DSB_VERSION, 'all' );
 		}
 	} else {
 		// Starting to build the <ul> list with share buttons.
-		$output .= '<ul class="ldssb">';
+		$output .= '<ul class="dsb">';
 
 		foreach ( $a as $key => $value ) {
 
@@ -71,22 +70,22 @@ function ldssb_shortcode( $atts = array() ) {
 				case 'facebook':
 					if ( 'true' === $value ) {
 						$sharer        = 'http://www.facebook.com/sharer.php?u=' . esc_url( rawurlencode( get_the_permalink() ) );
-						$icon_facebook = get_option( 'ldssb_facebook_icon_id' );
-						$output       .= ldssb_item_generator( $sharer, $icon_facebook, __( 'Facebook', 'ldssb' ) );
+						$icon_facebook = get_option( 'dsb_facebook_icon_id' );
+						$output       .= dsb_item_generator( $sharer, $icon_facebook, __( 'Facebook', 'dsb' ) );
 					}
 					break;
 				case 'twitter':
 					if ( 'true' === $value ) {
 						$sharer       = 'https://twitter.com/intent/tweet?url=' . esc_url( rawurlencode( get_the_permalink() ) ) . '&text=' . get_the_title();
-						$icon_twitter = get_option( 'ldssb_twitter_icon_id' );
-						$output      .= ldssb_item_generator( $sharer, $icon_twitter, __( 'Twitter', 'ldssb' ) );
+						$icon_twitter = get_option( 'dsb_twitter_icon_id' );
+						$output      .= dsb_item_generator( $sharer, $icon_twitter, __( 'Twitter', 'dsb' ) );
 					}
 					break;
 				case 'linkedin':
 					if ( 'true' === $value ) {
 						$sharer        = 'https://www.linkedin.com/sharing/share-offsite/?url=' . esc_url( rawurlencode( get_the_permalink() ) );
-						$icon_linkedin = get_option( 'ldssb_linkedin_icon_id' );
-						$output       .= ldssb_item_generator( $sharer, $icon_linkedin, __( 'LinkedIn', 'ldssb' ) );
+						$icon_linkedin = get_option( 'dsb_linkedin_icon_id' );
+						$output       .= dsb_item_generator( $sharer, $icon_linkedin, __( 'LinkedIn', 'dsb' ) );
 					}
 					break;
 			}
@@ -96,7 +95,7 @@ function ldssb_shortcode( $atts = array() ) {
 
 		// Enqueue Share Buttons CSS unless there is a settings not to do it.
 		if ( 'yes' !== get_option( 'disable_css' ) ) {
-			wp_enqueue_style( 'ldssb', plugins_url( 'css/ldssb.css', __FILE__ ), array(), LDSSB_VERSION, 'all' );
+			wp_enqueue_style( 'dsb', plugins_url( 'css/dsb.css', __FILE__ ), array(), DSB_VERSION, 'all' );
 		}
 	}
 
@@ -108,20 +107,20 @@ function ldssb_shortcode( $atts = array() ) {
  *
  * @return string
  */
-function ldssb_print_info_box() {
+function dsb_print_info_box() {
 	$info_box = '';
 	if ( current_user_can( 'manage_options' ) ) {
 		// Show the info box for user with proper privileges.
-		$info_box .= '<div class="ldssb-box">';
-		$info_box .= '<h2 class="ldssb-box__title">' . __( 'Lightweight Developer Social Share Buttons info', 'ldssb' ) . '</h2>';
+		$info_box .= '<div class="dsb-box">';
+		$info_box .= '<h2 class="dsb-box__title">' . __( 'Lightweight Developer Social Share Buttons info', 'dsb' ) . '</h2>';
 		$info_box .= wpautop(
 			sprintf(
 				/* translators: %s: Shortcode structure sample */
-				__( 'No sharing services added to the shortcode. Use %s to add buttons.', 'ldssb' ),
-				'<strong>[[ldssb facebook="true" twitter="true" linkedin="true"]]</strong>'
+				__( 'No sharing services added to the shortcode. Use %s to add buttons.', 'dsb' ),
+				'<strong>[[dsb facebook="true" twitter="true" linkedin="true"]]</strong>'
 			)
 		);
-		$info_box .= wpautop( __( 'Tip: You can configure the buttons order by changing the shortcode parameters order.', 'ldssb' ) );
+		$info_box .= wpautop( __( 'Tip: You can configure the buttons order by changing the shortcode parameters order.', 'dsb' ) );
 		$info_box .= '</div>';
 	}
 	return $info_box;
@@ -135,19 +134,19 @@ function ldssb_print_info_box() {
  * @param string $service_name Name of the sharing service for screen readers.
  * @return string
  */
-function ldssb_item_generator( $sharer_url, $icon_id, $service_name ) {
+function dsb_item_generator( $sharer_url, $icon_id, $service_name ) {
 	if ( $icon_id ) {
-		$icon = wp_get_attachment_image( $icon_id, 'full', true, array( 'class' => 'ldssb__icon' ) );
+		$icon = wp_get_attachment_image( $icon_id, 'full', true, array( 'class' => 'dsb__icon' ) );
 	} else {
 		$icon = $service_name;
 	}
-	return '<li class="ldssb__item">
-				<a target="_blank" rel="noopener noreferrer" href="' . $sharer_url . '" class="ldssb__link">' .
+	return '<li class="dsb__item">
+				<a target="_blank" rel="noopener noreferrer" href="' . $sharer_url . '" class="dsb__link">' .
 					$icon .
-					'<span class="ldssb__screen-reader-text">' .
+					'<span class="dsb__screen-reader-text">' .
 						sprintf(
 							/* translators: %s: Sharing service name */
-							__( 'Share on %s', 'ldssb' ),
+							__( 'Share on %s', 'dsb' ),
 							$service_name
 						) .
 					'</span>' .
@@ -155,19 +154,19 @@ function ldssb_item_generator( $sharer_url, $icon_id, $service_name ) {
 			</li>';
 }
 
-add_action( 'admin_menu', 'ldssb_submenu_page' );
+add_action( 'admin_menu', 'dsb_submenu_page' );
 /**
  * Add new submenu page under the Settings
  *
  * @return void
  */
-function ldssb_submenu_page() {
+function dsb_submenu_page() {
 	add_options_page(
 		'Leightweight Developer Social Share Buttons',
 		'Social Share Buttons',
 		'manage_options',
-		'options-ldssb',
-		'ldssb_submenu_page_callback'
+		'options-dsb',
+		'dsb_submenu_page_callback'
 	);
 }
 
@@ -176,14 +175,14 @@ function ldssb_submenu_page() {
  *
  * @return void
  */
-function ldssb_submenu_page_callback() {
+function dsb_submenu_page_callback() {
 	?>
 	<div class="wrap">
 		<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 		<form action="options.php" method="post">
 			<?php
-			settings_fields( 'ldssb_settings_group' );
-			do_settings_sections( 'options-ldssb' );
+			settings_fields( 'dsb_settings_group' );
+			do_settings_sections( 'options-dsb' );
 			submit_button();
 			?>
 		</form>
@@ -191,61 +190,61 @@ function ldssb_submenu_page_callback() {
 	<?php
 }
 
-add_action( 'admin_init', 'ldssb_settings_fields' );
+add_action( 'admin_init', 'dsb_settings_fields' );
 /**
  * Create settings fields
  *
  * @return void
  */
-function ldssb_settings_fields() {
-	$page_slug    = 'options-ldssb';
-	$option_group = 'ldssb_settings_group';
+function dsb_settings_fields() {
+	$page_slug    = 'options-dsb';
+	$option_group = 'dsb_settings_group';
 
 	// Create section.
 	add_settings_section(
-		'ldssb_section_id',
+		'dsb_section_id',
 		'',
 		'',
 		$page_slug
 	);
 
 	// Register Fields.
-	register_setting( $option_group, 'disable_css', 'ldssb_sanitize_checkbox' );
-	register_setting( $option_group, 'ldssb_facebook_icon_id', 'absint' );
-	register_setting( $option_group, 'ldssb_twitter_icon_id', 'absint' );
-	register_setting( $option_group, 'ldssb_linkedin_icon_id', 'absint' );
+	register_setting( $option_group, 'disable_css', 'dsb_sanitize_checkbox' );
+	register_setting( $option_group, 'dsb_facebook_icon_id', 'absint' );
+	register_setting( $option_group, 'dsb_twitter_icon_id', 'absint' );
+	register_setting( $option_group, 'dsb_linkedin_icon_id', 'absint' );
 
 	// Add fields.
 	add_settings_field(
 		'disable_css',
-		esc_html__( "Don't enqueue plugin CSS", 'ldssb' ),
-		'ldssb_disable_css_callback',
+		esc_html__( "Don't enqueue plugin CSS", 'dsb' ),
+		'dsb_disable_css_callback',
 		$page_slug,
-		'ldssb_section_id'
+		'dsb_section_id'
 	);
 
 	add_settings_field(
-		'ldssb_facebook_icon_id',
-		esc_html__( 'Facebook icon', 'ldssb' ),
-		'ldssb_facebook_icon_id_callback',
+		'dsb_facebook_icon_id',
+		esc_html__( 'Facebook icon', 'dsb' ),
+		'dsb_facebook_icon_id_callback',
 		$page_slug,
-		'ldssb_section_id'
+		'dsb_section_id'
 	);
 
 	add_settings_field(
-		'ldssb_twitter_icon_id',
-		esc_html__( 'Twitter icon', 'ldssb' ),
-		'ldssb_twitter_icon_id_callback',
+		'dsb_twitter_icon_id',
+		esc_html__( 'Twitter icon', 'dsb' ),
+		'dsb_twitter_icon_id_callback',
 		$page_slug,
-		'ldssb_section_id'
+		'dsb_section_id'
 	);
 
 	add_settings_field(
-		'ldssb_linkedin_icon_id',
-		esc_html__( 'LinkedIn icon', 'ldssb' ),
-		'ldssb_linkedin_icon_id_callback',
+		'dsb_linkedin_icon_id',
+		esc_html__( 'LinkedIn icon', 'dsb' ),
+		'dsb_linkedin_icon_id_callback',
 		$page_slug,
-		'ldssb_section_id'
+		'dsb_section_id'
 	);
 }
 
@@ -254,12 +253,12 @@ function ldssb_settings_fields() {
  *
  * @return void
  */
-function ldssb_disable_css_callback() {
+function dsb_disable_css_callback() {
 	$value = get_option( 'disable_css' );
 	?>
 	<label>
 		<input type="checkbox" name="disable_css" <?php checked( $value, 'yes' ); ?> />
-		<?php esc_html_e( 'Remove plugin CSS', 'ldssb' ); ?>
+		<?php esc_html_e( 'Remove plugin CSS', 'dsb' ); ?>
 	</label>
 	<?php
 }
@@ -270,7 +269,7 @@ function ldssb_disable_css_callback() {
  * @param string $value Checkbox value.
  * @return string
  */
-function ldssb_sanitize_checkbox( $value ) {
+function dsb_sanitize_checkbox( $value ) {
 	return 'on' === $value ? 'yes' : 'no';
 }
 
@@ -280,20 +279,20 @@ function ldssb_sanitize_checkbox( $value ) {
  * @param string $option_key get_option() key name.
  * @return void
  */
-function ldssb_build_media_uploader_field( $option_key ) {
+function dsb_build_media_uploader_field( $option_key ) {
 	$image_id = get_option( esc_attr( $option_key ) );
 	$image    = wp_get_attachment_image_url( $image_id, 'medium' );
 
 	if ( $image ) :
 		?>
-		<a href="#" class="ldssb-upload">
+		<a href="#" class="dsb-upload">
 			<img src="<?php echo esc_url( $image ); ?>" />
 		</a>
-		<a href="#" class="ldssb-remove">Remove image</a>
+		<a href="#" class="dsb-remove">Remove image</a>
 		<input type="hidden" name=<?php echo esc_attr( $option_key ); ?> value="<?php echo absint( $image_id ); ?>">
 	<?php else : ?>
-		<a href="#" class="button ldssb-upload">Upload image</a>
-		<a href="#" class="ldssb-remove" style="display:none">Remove image</a>
+		<a href="#" class="button dsb-upload">Upload image</a>
+		<a href="#" class="dsb-remove" style="display:none">Remove image</a>
 		<input type="hidden" name=<?php echo esc_attr( $option_key ); ?> value="">
 		<?php
 	endif;
@@ -304,8 +303,8 @@ function ldssb_build_media_uploader_field( $option_key ) {
  *
  * @return void
  */
-function ldssb_facebook_icon_id_callback() {
-	ldssb_build_media_uploader_field( 'ldssb_facebook_icon_id' );
+function dsb_facebook_icon_id_callback() {
+	dsb_build_media_uploader_field( 'dsb_facebook_icon_id' );
 }
 
 /**
@@ -313,8 +312,8 @@ function ldssb_facebook_icon_id_callback() {
  *
  * @return void
  */
-function ldssb_twitter_icon_id_callback() {
-	ldssb_build_media_uploader_field( 'ldssb_twitter_icon_id' );
+function dsb_twitter_icon_id_callback() {
+	dsb_build_media_uploader_field( 'dsb_twitter_icon_id' );
 }
 
 /**
@@ -322,26 +321,26 @@ function ldssb_twitter_icon_id_callback() {
  *
  * @return void
  */
-function ldssb_linkedin_icon_id_callback() {
-	ldssb_build_media_uploader_field( 'ldssb_linkedin_icon_id' );
+function dsb_linkedin_icon_id_callback() {
+	dsb_build_media_uploader_field( 'dsb_linkedin_icon_id' );
 }
 
 
-add_action( 'admin_enqueue_scripts', 'ldssb_enqueue_media_uplaoder_js' );
+add_action( 'admin_enqueue_scripts', 'dsb_enqueue_media_uplaoder_js' );
 /**
  * Enqueue JS file needed for media uploader in settings
  *
  * @return void
  */
-function ldssb_enqueue_media_uplaoder_js() {
-	if ( isset( $_GET['page'] ) && 'options-ldssb' === $_GET['page'] ) {
+function dsb_enqueue_media_uplaoder_js() {
+	if ( isset( $_GET['page'] ) && 'options-dsb' === $_GET['page'] ) {
 		// WordPress media uploader scripts.
 		if ( ! did_action( 'wp_enqueue_media' ) ) {
 			wp_enqueue_media();
 		}
 
 		// Custom JS for media upload.
-		wp_enqueue_script( 'ldssb-media-uploader', plugins_url( 'js/ldssb-media-uploader.js', __FILE__ ), array( 'jquery' ), LDSSB_VERSION, false );
+		wp_enqueue_script( 'dsb-media-uploader', plugins_url( 'js/dsb-media-uploader.js', __FILE__ ), array( 'jquery' ), DSB_VERSION, false );
 	}
 }
 
