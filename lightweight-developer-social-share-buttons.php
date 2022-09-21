@@ -136,9 +136,14 @@ function ldssb_print_info_box() {
  * @return string
  */
 function ldssb_item_generator( $sharer_url, $icon_id, $service_name ) {
+	if ( $icon_id ) {
+		$icon = wp_get_attachment_image( $icon_id, 'full', true, array( 'class' => 'ldssb__icon' ) );
+	} else {
+		$icon = $service_name;
+	}
 	return '<li class="ldssb__item">
 				<a target="_blank" rel="noopener noreferrer" href="' . $sharer_url . '" class="ldssb__link">' .
-				wp_get_attachment_image( $icon_id, 'full', true, array( 'class' => 'ldssb__icon' ) ) .
+					$icon .
 					'<span class="ldssb__screen-reader-text">' .
 						sprintf(
 							/* translators: %s: Sharing service name */
@@ -151,7 +156,6 @@ function ldssb_item_generator( $sharer_url, $icon_id, $service_name ) {
 }
 
 add_action( 'admin_menu', 'ldssb_submenu_page' );
-
 /**
  * Add new submenu page under the Settings
  *
