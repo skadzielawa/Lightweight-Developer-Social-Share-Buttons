@@ -211,7 +211,6 @@ function ldssb_settings_fields() {
 
 	// Register Fields.
 	register_setting( $option_group, 'disable_css', 'ldssb_sanitize_checkbox' );
-	register_setting( $option_group, 'upload_image', 'absint' );
 
 	// Add fields.
 	add_settings_field(
