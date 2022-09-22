@@ -1,6 +1,6 @@
 jQuery( function($){
 	// on upload button click
-	$( 'body' ).on( 'click', '.dsb-upload', function( event ){
+	$( 'body' ).on( 'click', '.dsb__upload', function( event ){
 		event.preventDefault(); // prevent default link click and page refresh
 		
 		const button = $(this)
@@ -19,7 +19,7 @@ jQuery( function($){
 		}).on( 'select', function() { // it also has "open" and "close" events
 			const attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
 			button.removeClass( 'button' ).html( '<img src="' + attachment.url + '">'); // add image instead of "Upload Image"
-			button.next().show(); // show "Remove image" link
+			button.next().css('display', 'inline-block'); // show "Remove image" link
 			button.next().next().val( attachment.id ); // Populate the hidden field with image ID
 		})
 		
@@ -39,7 +39,7 @@ jQuery( function($){
 	
 	});
 	// on remove button click
-	$( 'body' ).on( 'click', '.dsb-remove', function( event ){
+	$( 'body' ).on( 'click', '.dsb__remove', function( event ){
 		event.preventDefault();
 		const button = $(this);
 		button.next().val( '' ); // emptying the hidden field

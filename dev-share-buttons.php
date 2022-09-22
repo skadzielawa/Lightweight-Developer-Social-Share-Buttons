@@ -112,7 +112,7 @@ function dsb_print_info_box() {
 	if ( current_user_can( 'manage_options' ) ) {
 		// Show the info box for user with proper privileges.
 		$info_box .= '<div class="dsb-box">';
-		$info_box .= '<h2 class="dsb-box__title">' . __( 'Lightweight Developer Social Share Buttons info', 'dsb' ) . '</h2>';
+		$info_box .= '<h2 class="dsb-box__title">' . __( 'Dev Share Buttons info', 'dsb' ) . '</h2>';
 		$info_box .= wpautop(
 			sprintf(
 				/* translators: %s: Shortcode structure sample */
@@ -135,23 +135,27 @@ function dsb_print_info_box() {
  * @return string
  */
 function dsb_item_generator( $sharer_url, $icon_id, $service_name ) {
-	if ( $icon_id ) {
-		$icon = wp_get_attachment_image( $icon_id, 'full', true, array( 'class' => 'dsb__icon' ) );
+	$icon = '';
+
+	if ( ! empty( $icon_id ) ) {
+		$icon = wp_get_attachment_image(
+			$icon_id,
+			'full',
+			true,
+			array(
+				'class' => 'dsb__icon',
+				'alt'   => $service_name,
+			)
+		);
 	} else {
 		$icon = $service_name;
 	}
-	return '<li class="dsb__item">
-				<a target="_blank" rel="noopener noreferrer" href="' . $sharer_url . '" class="dsb__link">' .
-					$icon .
-					'<span class="dsb__screen-reader-text">' .
-						sprintf(
-							/* translators: %s: Sharing service name */
-							__( 'Share on %s', 'dsb' ),
-							$service_name
-						) .
-					'</span>' .
-				'</a>
-			</li>';
+
+	return '<li class="dsb__item">' .
+		'<a target="_blank" rel="noopener noreferrer" href="' . $sharer_url . '" class="dsb__link">' .
+		$icon .
+		'</a>' .
+		'</li>';
 }
 
 add_action( 'admin_menu', 'dsb_submenu_page' );
@@ -162,8 +166,8 @@ add_action( 'admin_menu', 'dsb_submenu_page' );
  */
 function dsb_submenu_page() {
 	add_options_page(
-		'Leightweight Developer Social Share Buttons',
-		'Social Share Buttons',
+		'Dev Share Buttons Settings',
+		'Dev Share Buttons',
 		'manage_options',
 		'options-dsb',
 		'dsb_submenu_page_callback'
@@ -177,7 +181,7 @@ function dsb_submenu_page() {
  */
 function dsb_submenu_page_callback() {
 	?>
-	<div class="wrap">
+	<div class="wrap dsb-admin">
 		<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 		<form action="options.php" method="post">
 			<?php
@@ -285,14 +289,26 @@ function dsb_build_media_uploader_field( $option_key ) {
 
 	if ( $image ) :
 		?>
-		<a href="#" class="dsb-upload">
-			<img src="<?php echo esc_url( $image ); ?>" />
+		<a href="#" class="dsb__upload">
+			<img class="dsb__icon" src="<?php echo esc_url( $image ); ?>" alt="">
 		</a>
-		<a href="#" class="dsb-remove">Remove image</a>
+		<a href="#" class="dsb__remove dsb__remove--active">
+			<span class="dsb__remove-icon"></span>
+			<span class="dsb__remove-label">
+				<?php esc_html_e( 'Remove image', 'dsb' ); ?>
+			</span>
+		</a>
 		<input type="hidden" name=<?php echo esc_attr( $option_key ); ?> value="<?php echo absint( $image_id ); ?>">
 	<?php else : ?>
-		<a href="#" class="button dsb-upload">Upload image</a>
-		<a href="#" class="dsb-remove" style="display:none">Remove image</a>
+		<a href="#" class="button dsb__upload">
+			<?php esc_html_e( 'Upload image', 'dsb' ); ?>
+		</a>
+		<a href="#" class="dsb__remove">
+			<span class="dsb__remove-icon"></span>
+			<span class="dsb__remove-label">
+				<?php esc_html_e( 'Remove image', 'dsb' ); ?>
+			</span>
+		</a>
 		<input type="hidden" name=<?php echo esc_attr( $option_key ); ?> value="">
 		<?php
 	endif;
@@ -341,6 +357,9 @@ function dsb_enqueue_media_uplaoder_js() {
 
 		// Custom JS for media upload.
 		wp_enqueue_script( 'dsb-media-uploader', plugins_url( 'js/dsb-media-uploader.js', __FILE__ ), array( 'jquery' ), DSB_VERSION, false );
+
+		// Admin CSS.
+		wp_enqueue_style( 'dsb-admin', plugins_url( 'css/dsb-admin.css', __FILE__ ), array(), DSB_VERSION, 'all' );
 	}
 }
 
