@@ -49,7 +49,7 @@ Use CSS ;)
 == Changelog ==
 
 = 1.1.0
-* Added settings page, default icons removed from the plugin 
+* Added settings page, default icons removed from the plugin, rebranding
 
 = 1.0.0 =
 * The first version released
